@@ -1,3 +1,7 @@
+<<<<<<< HEAD
+=======
+
+>>>>>>> 9e2c761ea6bc3f31972da5eb06b8ce6c778f794b
 /*
 =============================================================
 Create Database and Schemas
@@ -13,6 +17,7 @@ WARNING:
     and ensure you have proper backups before running this script.
 */
 
+<<<<<<< HEAD
 
 
 use master;
@@ -31,6 +36,27 @@ use dwhdb;
 
 -- create schemas
 
+=======
+USE master;
+GO
+
+-- Drop and recreate the 'DataWarehouse' database
+IF EXISTS (SELECT 1 FROM sys.databases WHERE name = 'DataWarehouse')
+BEGIN
+    ALTER DATABASE DataWarehouse SET SINGLE_USER WITH ROLLBACK IMMEDIATE;
+    DROP DATABASE DataWarehouse;
+END;
+GO
+
+-- Create the 'DataWarehouse' database
+CREATE DATABASE DataWarehouse;
+GO
+
+USE DataWarehouse;
+GO
+
+-- Create Schemas
+>>>>>>> 9e2c761ea6bc3f31972da5eb06b8ce6c778f794b
 CREATE SCHEMA bronze;
 GO
 
@@ -38,4 +64,8 @@ CREATE SCHEMA silver;
 GO
 
 CREATE SCHEMA gold;
+<<<<<<< HEAD
 GO
+=======
+GO
+>>>>>>> 9e2c761ea6bc3f31972da5eb06b8ce6c778f794b
