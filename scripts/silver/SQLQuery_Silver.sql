@@ -359,9 +359,70 @@ order by  sls_sales, sls_quantity, sls_price
 select *
 FROM silver.crm_sales_details
 
+-- clean and load data erp_cust_az12
+
+select
+    cid,
+    bdate,
+    gen
+from bronze.erp_cust_az12
+
+select * from [silver].[erp_cust_az12]
+
+select
+    cid,
+    bdate,
+    gen
+from bronze.erp_cust_az12
+where cid like '%AW00011004'
+
+select
+    cid,
+	case when cid like 'nas%' then substring (cid,4,len(cid))
+	else cid
+end cid_new,
+    bdate,
+    gen
+select
+
+from bronze.erp_cust_az12 
 
 
+-- to count duplicates
+select
+count(*)
+from bronze.erp_cust_az12 
+group by cid
+HAVING COUNT(*) > 1;
 
+
+select
+    cid,count(*) as cid_duplicate
+from bronze.erp_cust_az12 
+group by cid
+HAVING COUNT(*) > 1;
+
+
+select
+    cid,count(*) as cid_duplicate
+from bronze.erp_cust_az12 
+group by cid
+HAVING COUNT(*) > 1;
+
+select
+    cid,
+	case when cid like 'nas%' then substring (cid,4,len(cid))
+	else cid
+end as cid_new,
+    bdate,
+	count(*)as count_column,
+    gen
+from bronze.erp_cust_az12 
+group by cid,bdate,gen,
+case when cid like 'nas%' then substring (cid,4,len(cid))
+	else cid
+end 
+HAVING COUNT(*) = 1;
 
 
 
