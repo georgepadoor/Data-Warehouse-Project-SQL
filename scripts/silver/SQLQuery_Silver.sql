@@ -301,6 +301,66 @@ order by  sls_sales, sls_quantity, sls_price
 
 
 
+select distinct
+sls_sales,
+sls_quantity,
+sls_price
+FROM bronze.crm_sales_details
+where sls_sales is null or sls_quantity is null or sls_price is null
+order by  sls_sales, sls_quantity, sls_price 
+
+
+select
+sls_sales as sls_sales_old,
+sls_quantity,
+sls_price as sls_price_old
+FROM bronze.crm_sales_details
+where sls_sales is null or sls_quantity is null or sls_price is null
+order by  sls_sales, sls_quantity, sls_price 
+
+-- Recalculate sales if original value is missing or incorrect
+select
+sls_quantity,
+sls_price,
+	CASE 
+		WHEN sls_sales IS NULL OR sls_sales <= 0 OR sls_sales != sls_quantity * ABS(sls_price) 
+		THEN sls_quantity * ABS(sls_price)
+		ELSE sls_sales
+	END AS sls_sales,
+sls_sales as sls_sales_old
+FROM bronze.crm_sales_details
+where sls_sales IS NULL OR sls_sales <= 0 OR sls_sales != sls_quantity * ABS(sls_price)
+
+ -- Derive price if original value is invalid
+  select
+sls_quantity,
+sls_price as sls_price_old ,
+	CASE 
+		WHEN sls_price IS NULL OR sls_price <= 0 
+		THEN sls_sales / NULLIF(sls_quantity, 0)
+		ELSE sls_price 
+	END AS sls_price,
+sls_sales
+FROM bronze.crm_sales_details
+where  sls_price IS NULL OR sls_price <= 0
+
+--loaded to silver layer do quality checks
+
+select distinct
+sls_sales,
+sls_quantity,
+sls_price
+FROM silver.crm_sales_details
+where sls_sales is null or sls_quantity is null or sls_price is null
+or sls_sales <= 0 or sls_quantity <= 0 or sls_price <= 0
+or sls_sales != sls_quantity * sls_price
+order by  sls_sales, sls_quantity, sls_price 
+
+select *
+FROM silver.crm_sales_details
+
+
+
 
 
 
