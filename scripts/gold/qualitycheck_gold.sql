@@ -253,4 +253,9 @@ left join gold.dim_products p
 on p.product_key = f.product_key
 where p.product_key is null
 
+select * from gold.fact_sales f
+left join gold.dim_products p
+on f.product_key = p.product_key
+where p.product_key is null
+
 
