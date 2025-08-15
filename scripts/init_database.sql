@@ -27,7 +27,9 @@ go
 -- create database dwhdb
 
 create database dwhdb;
+
 use dwhdb;
+go
 
 -- create schemas
 
