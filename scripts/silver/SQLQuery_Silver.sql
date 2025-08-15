@@ -529,6 +529,40 @@ select *
 from silver.erp_loc_a101
 
 
+--load erp_px_cat_g1v2 to silver layer
+select
+id,
+cat,
+subcat,
+maintenance
+
+from bronze.erp_px_cat_g1v2
+
+-- check for unwanted spaces
+
+select * from bronze.erp_px_cat_g1v2
+where cat !=(cat)
+
+
+select * from bronze.erp_px_cat_g1v2
+where subcat !=(subcat)
+
+select * from bronze.erp_px_cat_g1v2
+where maintenance !=(maintenance)
+
+select * from bronze.erp_px_cat_g1v2
+where cat !=(cat) or subcat !=(subcat) or maintenance !=(maintenance)
+
+-- data  standarization n consistency
+
+select distinct cat from bronze.erp_px_cat_g1v2
+
+select distinct subcat from bronze.erp_px_cat_g1v2
+
+select distinct maintenance from bronze.erp_px_cat_g1v2
+
+select * from silver.erp_px_cat_g1v2
+
 
 
 
