@@ -487,6 +487,48 @@ from silver.erp_cust_az12
 select * from silver.erp_cust_az12
 
 
+--load bronze.erp_loc_a101
+select *
+from bronze.erp_loc_a101
+
+select 
+cid,
+cntry
+from bronze.erp_loc_a101;
+
+select cst_key from silver.crm_cust_info
+
+select 
+replace (cid, '-','') cid
+from bronze.erp_loc_a101
+
+select cst_key from silver.crm_cust_info
+
+
+select distinct cntry
+from bronze.erp_loc_a101
+order by cntry
+-- data standardization n consistency
+select distinct
+cntry as cntry_old,
+case
+when trim(cntry) in ('DE', 'Germany') then 'Germany'
+when trim(cntry) in ('United States','US','USA') then 'United States'
+when trim(cntry) in ('UK', 'United Kingdom') then 'United Kingdom'
+when trim(cntry) ='' or cntry is null then 'n/a'
+else cntry
+end as cntry
+from bronze.erp_loc_a101
+order by cntry
+
+select distinct cntry
+from silver.erp_loc_a101
+order by cntry
+
+select *
+from silver.erp_loc_a101
+
+
 
 
 
