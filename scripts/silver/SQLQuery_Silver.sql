@@ -563,6 +563,10 @@ select distinct maintenance from bronze.erp_px_cat_g1v2
 
 select * from silver.erp_px_cat_g1v2
 
+EXEC bronze.load_bronze
+EXEC silver.load_silver
+
+ 
 
 
 
