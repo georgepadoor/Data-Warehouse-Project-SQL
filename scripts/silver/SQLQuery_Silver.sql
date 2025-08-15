@@ -425,6 +425,69 @@ end
 HAVING COUNT(*) = 1;
 
 
+select
+    cid,
+	case when cid like 'nas%' then substring (cid,4,len(cid))
+	else cid
+end as cid,
+    bdate,
+    gen
+from bronze.erp_cust_az12 
+where case when cid like 'nas%' then substring (cid, 4, len (cid))
+else cid
+end not in (select distinct cst_key from silver.crm_cust_info)
+
+-- dentify out of range dates
+
+select distinct bdate 
+from bronze.erp_cust_az12
+where bdate <'1925-01-01' or  bdate > getdate()
+
+--data standardization cinsistency
+select distinct 
+gen
+from bronze.erp_cust_az12
+
+select distinct 
+gen,
+case 
+	when trim(gen) in ('M', 'MALE') then 'Male'
+	when trim(gen) in ('F', 'FEMALE') then 'Female'
+	ELSE 'n/a'
+END AS gen
+from bronze.erp_cust_az12
+
+
+
+--testing the table
+
+SELECT
+		CASE
+				WHEN cid LIKE 'NAS%' THEN SUBSTRING(cid, 4, LEN(cid)) -- Remove 'NAS' prefix if present
+				ELSE cid
+			END AS cid, 
+			CASE
+				WHEN bdate > GETDATE() THEN NULL
+				ELSE bdate
+			END AS bdate, -- Set future birthdates to NULL
+			CASE
+				WHEN UPPER(TRIM(gen)) IN ('F', 'FEMALE') THEN 'Female'
+				WHEN UPPER(TRIM(gen)) IN ('M', 'MALE') THEN 'Male'
+				ELSE 'n/a'
+			END AS gen -- Normalize gender values and handle unknown cases
+		FROM bronze.erp_cust_az12
+
+--quality check by silver table
+
+--data standardization cinsistency
+select distinct 
+gen
+from silver.erp_cust_az12
+
+select * from silver.erp_cust_az12
+
+
+
 
 
 
