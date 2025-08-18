@@ -93,19 +93,19 @@ data-warehouse-project/
 ## ✏️ Diagrams
 
 ### ETL Process
-![ETL Process](docs/ETL.png)
+![ETL Process](images/ETL.png)
 
 ### Data Layers
-![Data Layers](docs/data_layers.png)
+![Data Layers](images/data_layers.png)
 
 ### Data Flow
-![Data Flow](docs/data_flow.png)
+![Data Flow](images/data_flow.png)
 
 ### Data Integration
-![Data Integration](docs/data_integration.png)
+![Data Integration](images/data_integration.png)
 
 ### Data Model
-![Data Model](docs/data_model.png)
+![Data Model](images/data_model.png)
 
 ---
 
